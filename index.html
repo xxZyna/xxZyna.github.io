@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Your Name — Motion Designer</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap');
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --border: #1e1e1e;
+    --accent: #f5a302;
+    --text: #f0f0f0;
+    --muted: #888;
+    --font: 'Sora', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 5%;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(10px);
+  }
+  .logo {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  nav a.cta {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--accent);
+    padding: 0.5rem 1.2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  nav a.cta:hover { opacity: 0.85; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 5% 4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 5rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    max-width: 800px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .hero p {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: var(--muted);
+    max-width: 500px;
+    margin-bottom: 2.5rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.85rem 2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-secondary {
+    display: inline-block;
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.85rem 2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); }
+
+  /* SECTION SHARED */
+  section { padding: 5rem 5%; border-bottom: 1px solid var(--border); }
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+  }
+
+  /* WORK */
+  .video-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    aspect-ratio: 16/9;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .video-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  /* Placeholder shown when no embed is set */
+  .video-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+  }
+  .video-placeholder .play-icon {
+    width: 56px; height: 56px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .video-placeholder .play-icon::after {
+    content: '';
+    border-left: 18px solid var(--muted);
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    margin-left: 4px;
+  }
+  .work-meta h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .work-meta p { color: var(--muted); font-size: 0.9rem; max-width: 600px; }
+  .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.25rem 0.65rem;
+    border-radius: 2px;
+    margin: 1rem 0.3rem 0 0;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-grid h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 1.2rem;
+  }
+  .about-grid h2 em { font-style: normal; color: var(--accent); }
+  .about-grid p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+  .services { margin-top: 1rem; }
+  .service-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .service-item:last-child { border-bottom: 1px solid var(--border); }
+  .service-num {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-top: 3px;
+    min-width: 24px;
+  }
+  .service-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.2rem; }
+  .service-item p { font-size: 0.82rem; color: var(--muted); margin: 0; }
+
+  /* CONTACT */
+  .contact-inner { max-width: 600px; }
+  .contact-inner h2 {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .contact-inner h2 em { font-style: normal; color: var(--accent); }
+  .contact-inner p { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; }
+  .contact-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+  .contact-email:hover { color: var(--accent); }
+  .social-links { display: flex; gap: 1rem; margin-top: 2rem; }
+  .social-links a {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .social-links a:hover { color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 680px) {
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">Your Name<span>.</span></a>
+  <a class="cta" href="#contact">Let's Talk</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-tag">Motion Designer — Available for Projects</p>
+  <h1>I make your product <em>impossible</em> to ignore.</h1>
+  <p>I help SaaS founders turn complex products into clear, compelling motion — so your users get it instantly.</p>
+  <div class="hero-actions">
+    <a class="btn-primary" href="#work">See My Work</a>
+    <a class="btn-secondary" href="#contact">Get In Touch</a>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <p class="section-label">Featured Work</p>
+  <div class="video-wrap">
+    <!--
+      TO EMBED YOUR VIMEO VIDEO:
+      1. Go to your video on Vimeo
+      2. Click Share → Embed
+      3. Copy the <iframe> code
+      4. Replace the placeholder below with your iframe
+
+      Example:
+      <iframe src="https://player.vimeo.com/video/YOUR_VIDEO_ID" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    -->
+    <div class="video-placeholder">
+      <div class="play-icon"></div>
+      <span>Paste your Vimeo embed here</span>
+    </div>
+  </div>
+  <div class="work-meta">
+    <h3>Jumia Shipping Services — Product Demo Concept</h3>
+    <p>A motion concept demonstrating how Jumia's new shipping service works — designed to make a complex logistics flow feel simple, fast, and intuitive for end users.</p>
+    <span class="tag">Product Demo</span>
+    <span class="tag">Motion Design</span>
+    <span class="tag">Service UX</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">About</p>
+  <div class="about-grid">
+    <div>
+      <h2>Motion that <em>moves</em> your numbers.</h2>
+      <p>I'm a motion designer focused on helping early-stage SaaS founders communicate their product value clearly and beautifully — through demo videos, explainers, and UI animations that convert.</p>
+      <p>I believe great motion design isn't just about aesthetics. It's about making people understand your product faster, trust it sooner, and remember it longer.</p>
+    </div>
+    <div class="services">
+      <div class="service-item">
+        <span class="service-num">01</span>
+        <div>
+          <h4>Product Demo Videos</h4>
+          <p>Show exactly how your product works in 30–60 seconds.</p>
+        </div>
+      </div>
+      <div class="service-item">
+        <span class="service-num">02</span>
+        <div>
+          <h4>Explainer Animations</h4>
+          <p>Turn your value proposition into something visual and memorable.</p>
+        </div>
+      </div>
+      <div class="service-item">
+        <span class="service-num">03</span>
+        <div>
+          <h4>Landing Page Motion</h4>
+          <p>Subtle animations that make your site feel alive and premium.</p>
+        </div>
+      </div>
+      <div class="service-item">
+        <span class="service-num">04</span>
+        <div>
+          <h4>Social Content</h4>
+          <p>Short-form motion content for launch announcements and ads.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <p class="section-label">Contact</p>
+    <h2>Got a product? Let's make it <em>move.</em></h2>
+    <p>I'm currently available for freelance projects. If you're building something and need motion design that actually helps people understand it — let's talk.</p>
+    <a class="contact-email" href="mailto:you@youremail.com">you@youremail.com →</a>
+    <div class="social-links">
+      <a href="#">Twitter / X</a>
+      <a href="#">Vimeo</a>
+      <a href="#">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Your Name. All rights reserved.</span>
+  <span>Motion Designer — Open for Work</span>
+</footer>
+
+</body>
+</html>
