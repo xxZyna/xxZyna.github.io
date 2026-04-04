@@ -8,15 +8,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
+  /* Prevent mobile browsers from auto-inflating or deflating font sizes */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #D4D3D4;
+    --bg: #ffffff;
     --surface: #121312;
     --border: #f1f1f4;
     --accent: #EE5737;
-    --text: #1C1B22;
-    --muted: #9B96A8;
+    --text: #121213;
+    --muted: #575759;
     --font-display: 'Playfair Display', serif;
     --font-body: 'Sora', sans-serif;
   }
@@ -55,12 +62,12 @@
     animation: fadeUp 0.55s ease forwards 0.08s;
   }
   .hero h1 {
-    font-family: var(--font-display); font-size: 5rem;
+    font-family: var(--font-display); font-size: 80px;
     font-weight: 500; line-height: 1.15; letter-spacing: -0.02em;
     max-width: 800px; margin-bottom: 1.5rem;
   }
   .hero h1 em { font-style: italic; }
-  .hero p { font-size: 1.15rem; color: var(--muted); max-width: 500px; margin-bottom: 2.5rem; font-family: var(--font-body); }
+  .hero p { font-size: 18px; color: var(--muted); max-width: 500px; margin-bottom: 2.5rem; font-family: var(--font-body); }
   .hero-actions {
     display: flex; gap: 1rem; flex-wrap: wrap;
     opacity: 0; transform: translateY(14px);
@@ -124,7 +131,7 @@
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* heading word-split (no extra base styles needed — JS handles) */
+  /* heading word-split */
   .split-heading { line-height: 1.15; }
   .split-body { }
 
@@ -152,7 +159,7 @@
 
   /* ABOUT */
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-  .about-grid h2 { font-family: var(--font-display); font-size: 2.2rem; font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; margin-bottom: 1.2rem; }
+  .about-grid h2 { font-family: var(--font-display); font-size: 35px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; margin-bottom: 1.2rem; }
   .about-grid h2 em { font-style: italic; }
   .about-grid p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; font-family: var(--font-body); }
   .services { margin-top: 1rem; }
@@ -164,7 +171,7 @@
 
   /* CONTACT */
   .contact-inner { max-width: 600px; }
-  .contact-inner h2 { font-family: var(--font-display); font-size: 3rem; font-weight: 500; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 1rem; }
+  .contact-inner h2 { font-family: var(--font-display); font-size: 48px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 1rem; }
   .contact-inner h2 em { font-style: italic; }
   .contact-inner p { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; font-family: var(--font-body); }
   .contact-email {
@@ -203,8 +210,7 @@
     <a class="btn-primary" href="#work">See My Work</a>
     <a class="btn-secondary" href="#contact">Get In Touch</a>
   </div>
- 
- </section>
+</section>
 
 <!-- WORK -->
 <section id="work">
@@ -253,6 +259,8 @@
       <span class="tag">Crypto</span>
     </div>
   </div>
+
+</section>
 
 <!-- CONTACT -->
 <section id="contact">
@@ -330,12 +338,10 @@
       const el = entry.target;
 
       if (el.classList.contains('split-heading')) {
-        // word fade + rise
         wrapWords(el, 'word');
         el.querySelectorAll('.word').forEach((w, i) => {
           w.style.transitionDelay = `${i * 0.065}s`;
         });
-        // override the default reveal opacity/transform
         el.style.opacity = '1';
         el.style.transform = 'none';
         requestAnimationFrame(() => {
@@ -343,7 +349,6 @@
         });
 
       } else if (el.classList.contains('split-body')) {
-        // word fade only
         wrapWords(el, 'word-fade');
         el.querySelectorAll('.word-fade').forEach((w, i) => {
           w.style.transitionDelay = `${i * 0.042}s`;
@@ -365,3 +370,10 @@
   // Observe all animated elements
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   document.querySelectorAll('.split-heading, .split-body').forEach(el => {
+    // Give them an invisible base so they don't flash before JS runs
+    el.style.opacity = '0';
+    io.observe(el);
+  });
+</script>
+</body>
+</html>
