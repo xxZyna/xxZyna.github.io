@@ -13,7 +13,7 @@
   :root {
     --bg: #f1f1f4;
     --surface: #121312;
-    --border: #1e1e1e;
+    --border: #575759;
     --accent: #EE5737;
     --text: #121213;
     --muted: #575759;
@@ -29,45 +29,104 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
     padding: 1.2rem 5%; border-bottom: 1px solid var(--border);
-    background: rgba(18,19,18,0.92); backdrop-filter: blur(10px);
+    background: rgba(241,241,244,0.92); backdrop-filter: blur(10px);
   }
   .logo { font-size: 1rem; font-weight: 700; letter-spacing: 0.05em; color: var(--text); text-decoration: none; font-family: var(--font-body); }
-  .logo span { color: var(--text); }
   nav a.cta {
     font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--bg); background: var(--accent); padding: 0.5rem 1.2rem; border-radius: 2px;
-    text-decoration: none; transition: opacity 0.2s; font-family: var(--font-body);
+    color: #fff; background: var(--accent); padding: 0.5rem 1.2rem; border-radius: 2px;
+    text-decoration: none; font-family: var(--font-body);
+    transition: box-shadow 0.35s ease, filter 0.35s ease, opacity 0.2s;
   }
-  nav a.cta:hover { opacity: 0.85; }
+  nav a.cta:hover {
+    box-shadow: 0 0 18px rgba(238,87,55,0.6), 0 0 42px rgba(238,87,55,0.28);
+    filter: brightness(1.08);
+  }
 
   /* HERO */
   .hero {
     min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
     padding: 8rem 5% 4rem; border-bottom: 1px solid var(--border);
   }
-  .hero-tag { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; font-family: var(--font-body); }
-  .hero h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 6vw, 5rem); font-weight: 500; line-height: 1.08; letter-spacing: -0.02em; max-width: 800px; margin-bottom: 1.5rem; }
-  .hero h1 em { font-style: italic; color: var(--text); }
-  .hero p { font-size: clamp(1rem, 2vw, 1.15rem); color: var(--muted); max-width: 500px; margin-bottom: 2.5rem; font-family: var(--font-body); }
-  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .btn-primary {
-    display: inline-block; background: var(--accent); color: var(--bg);
-    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-    padding: 0.85rem 2rem; border-radius: 2px; text-decoration: none; transition: opacity 0.2s;
-    font-family: var(--font-body);
+  .hero-tag {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 1.5rem; font-family: var(--font-body);
+    opacity: 0; transform: translateY(14px);
+    animation: fadeUp 0.55s ease forwards 0.08s;
   }
-  .btn-primary:hover { opacity: 0.85; }
+  .hero h1 {
+    font-family: var(--font-display); font-size: clamp(2.4rem, 6vw, 5rem);
+    font-weight: 500; line-height: 1.15; letter-spacing: -0.02em;
+    max-width: 800px; margin-bottom: 1.5rem;
+  }
+  .hero h1 em { font-style: italic; }
+  .hero p { font-size: clamp(1rem, 2vw, 1.15rem); color: var(--muted); max-width: 500px; margin-bottom: 2.5rem; font-family: var(--font-body); }
+  .hero-actions {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0; transform: translateY(14px);
+    animation: fadeUp 0.55s ease forwards 0.6s;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* word spans — heading (fade + rise) */
+  .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .word.visible { opacity: 1; transform: translateY(0); }
+
+  /* word spans — body (fade only) */
+  .word-fade {
+    display: inline-block;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+  }
+  .word-fade.visible { opacity: 1; }
+
+  /* BUTTONS */
+  .btn-primary {
+    display: inline-block; background: var(--accent); color: #fff;
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 0.85rem 2rem; border-radius: 2px; text-decoration: none;
+    font-family: var(--font-body);
+    transition: box-shadow 0.35s ease, filter 0.35s ease;
+  }
+  .btn-primary:hover {
+    box-shadow: 0 0 22px rgba(238,87,55,0.65), 0 0 55px rgba(238,87,55,0.28);
+    filter: brightness(1.1);
+  }
   .btn-secondary {
     display: inline-block; border: 1px solid var(--border); color: var(--text);
     font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-    padding: 0.85rem 2rem; border-radius: 2px; text-decoration: none; transition: border-color 0.2s;
+    padding: 0.85rem 2rem; border-radius: 2px; text-decoration: none;
     font-family: var(--font-body);
+    transition: border-color 0.25s, box-shadow 0.35s ease;
   }
-  .btn-secondary:hover { border-color: var(--accent); }
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 14px rgba(18,18,19,0.1), 0 0 28px rgba(18,18,19,0.06);
+  }
 
   /* SECTION SHARED */
   section { padding: 5rem 5%; border-bottom: 1px solid var(--border); }
   .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 2.5rem; font-family: var(--font-body); }
+
+  /* generic scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* heading word-split (no extra base styles needed — JS handles) */
+  .split-heading { line-height: 1.15; }
+  .split-body { }
 
   /* WORK */
   .work-item { margin-bottom: 4rem; }
@@ -80,19 +139,7 @@
     overflow: hidden; margin-bottom: 1.5rem;
   }
   .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-  .video-placeholder {
-    position: absolute; inset: 0; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 0.75rem;
-    color: var(--muted); font-size: 0.85rem; letter-spacing: 0.05em;
-  }
-  .video-placeholder .play-icon {
-    width: 56px; height: 56px; border: 2px solid var(--border);
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  }
-  .video-placeholder .play-icon::after {
-    content: ''; border-left: 18px solid var(--muted);
-    border-top: 11px solid transparent; border-bottom: 11px solid transparent; margin-left: 4px;
-  }
+
   .work-meta h3 { font-family: var(--font-body); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; }
   .work-meta p { color: var(--muted); font-size: 0.9rem; max-width: 600px; font-family: var(--font-body); }
   .tag {
@@ -106,7 +153,7 @@
   /* ABOUT */
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
   .about-grid h2 { font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; margin-bottom: 1.2rem; }
-  .about-grid h2 em { font-style: italic; color: var(--text); }
+  .about-grid h2 em { font-style: italic; }
   .about-grid p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; font-family: var(--font-body); }
   .services { margin-top: 1rem; }
   .service-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-top: 1px solid var(--border); }
@@ -118,7 +165,7 @@
   /* CONTACT */
   .contact-inner { max-width: 600px; }
   .contact-inner h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 500; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 1rem; }
-  .contact-inner h2 em { font-style: italic; color: var(--text); }
+  .contact-inner h2 em { font-style: italic; }
   .contact-inner p { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; font-family: var(--font-body); }
   .contact-email {
     display: inline-flex; align-items: center; gap: 0.6rem; font-size: 1rem; font-weight: 700;
@@ -150,8 +197,8 @@
 <!-- HERO -->
 <section class="hero">
   <p class="hero-tag">Motion Designer | Available for Work!</p>
-  <h1>I make your vision <em>impossible</em> to ignore.</h1>
-  <p>I help you turn complex products into clear, compelling motion, so your audience gets it instantly.</p>
+  <h1 id="hero-heading">I make your vision <em>impossible</em> to ignore.</h1>
+  <p id="hero-sub">I help you turn complex products into clear, compelling motion, so your audience gets it instantly.</p>
   <div class="hero-actions">
     <a class="btn-primary" href="#work">See My Work</a>
     <a class="btn-secondary" href="#contact">Get In Touch</a>
@@ -160,13 +207,12 @@
 
 <!-- WORK -->
 <section id="work">
-  <p class="section-label">Featured Work</p>
+  <p class="section-label reveal">Featured Work</p>
 
-  <!-- PROJECT 1 -->
-  <div class="work-item">
+  <div class="work-item reveal">
     <p class="work-number">Project 01</p>
     <div class="video-wrap">
-<iframe src="https://player.vimeo.com/video/1180048681?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Copilot Health Motion Design"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+      <iframe src="https://player.vimeo.com/video/1180048681?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Copilot Health Motion Design"></iframe>
     </div>
     <div class="work-meta">
       <h3>Copilot Health</h3>
@@ -176,10 +222,9 @@
     </div>
   </div>
 
- <hr class="work-divider">
- 
-  <!-- PROJECT 2 -->
-  <div class="work-item">
+  <hr class="work-divider">
+
+  <div class="work-item reveal">
     <p class="work-number">Project 02</p>
     <div class="video-wrap">
       <iframe src="https://player.vimeo.com/video/1171686774?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="Jumia Delivery Services — Product Demo Concept"></iframe>
@@ -195,8 +240,7 @@
 
   <hr class="work-divider">
 
-  <!-- PROJECT 3 -->
-  <div class="work-item">
+  <div class="work-item reveal">
     <p class="work-number">Project 03</p>
     <div class="video-wrap">
       <iframe src="https://player.vimeo.com/video/1173224077?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="CHO MOTION"></iframe>
@@ -210,17 +254,18 @@
   </div>
 
   <hr class="work-divider">
+</section>
 
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
   <div class="contact-inner">
-    <p class="section-label">Contact</p>
-    <h2>Got a product / Service? <em>Let's tell your story.</em></h2>
-    <p>I'm currently available for freelance projects. If you're building something and need motion design that actually helps people understand it — let's talk.</p>
-    <a class="contact-email" href="mailto:ZynaGFX@gmail.com">Send an email →</a>
-    <div class="social-links">
+    <p class="section-label reveal">Contact</p>
+    <h2 class="split-heading">Got a product / Service? <em>Let's tell your story.</em></h2>
+    <p class="split-body">I'm currently available for freelance projects. If you're building something and need motion design that actually helps people understand it — let's talk.</p>
+    <a class="contact-email reveal" href="mailto:ZynaGFX@gmail.com">Send an email →</a>
+    <div class="social-links reveal">
       <a href="https://x.com/thezyna_">Twitter / X</a>
       <a href="https://vimeo.com/user208417578">Vimeo</a>
     </div>
@@ -233,5 +278,102 @@
 </footer>
 
 <script src="https://player.vimeo.com/api/player.js"></script>
+<script>
+  // ── Utility: split element into word spans, preserving child elements ──
+  function wrapWords(el, cls) {
+    function walk(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const parts = node.textContent.split(/(\s+)/);
+        const frag = document.createDocumentFragment();
+        parts.forEach(p => {
+          if (/^\s+$/.test(p)) {
+            frag.appendChild(document.createTextNode(p));
+          } else if (p) {
+            const s = document.createElement('span');
+            s.className = cls;
+            s.textContent = p;
+            frag.appendChild(s);
+          }
+        });
+        node.parentNode.replaceChild(frag, node);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        Array.from(node.childNodes).forEach(walk);
+      }
+    }
+    walk(el);
+  }
+
+  // ── Hero heading — word fade + rise, auto on load ─────────────
+  const heroH = document.getElementById('hero-heading');
+  wrapWords(heroH, 'word');
+  heroH.querySelectorAll('.word').forEach((w, i) => {
+    w.style.transitionDelay = `${0.18 + i * 0.075}s`;
+  });
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    heroH.querySelectorAll('.word').forEach(w => w.classList.add('visible'));
+  }));
+
+  // ── Hero subtext — word fade only, auto on load ───────────────
+  const heroSub = document.getElementById('hero-sub');
+  wrapWords(heroSub, 'word-fade');
+  heroSub.querySelectorAll('.word-fade').forEach((w, i) => {
+    w.style.transitionDelay = `${0.5 + i * 0.048}s`;
+  });
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    heroSub.querySelectorAll('.word-fade').forEach(w => w.classList.add('visible'));
+  }));
+
+  // ── Stagger service items ─────────────────────────────────────
+  document.querySelectorAll('.service-item.reveal').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 0.1}s`;
+  });
+
+  // ── IntersectionObserver for scroll-triggered elements ────────
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+
+      if (el.classList.contains('split-heading')) {
+        // word fade + rise
+        wrapWords(el, 'word');
+        el.querySelectorAll('.word').forEach((w, i) => {
+          w.style.transitionDelay = `${i * 0.065}s`;
+        });
+        // override the default reveal opacity/transform
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+        requestAnimationFrame(() => {
+          el.querySelectorAll('.word').forEach(w => w.classList.add('visible'));
+        });
+
+      } else if (el.classList.contains('split-body')) {
+        // word fade only
+        wrapWords(el, 'word-fade');
+        el.querySelectorAll('.word-fade').forEach((w, i) => {
+          w.style.transitionDelay = `${i * 0.042}s`;
+        });
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+        requestAnimationFrame(() => {
+          el.querySelectorAll('.word-fade').forEach(w => w.classList.add('visible'));
+        });
+
+      } else {
+        el.classList.add('visible');
+      }
+
+      io.unobserve(el);
+    });
+  }, { threshold: 0.1 });
+
+  // Observe all animated elements
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  document.querySelectorAll('.split-heading, .split-body').forEach(el => {
+    // Give them an invisible base so they don't flash before JS runs
+    el.style.opacity = '0';
+    io.observe(el);
+  });
+</script>
 </body>
 </html>
