@@ -11,11 +11,11 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #ffffff;
+    --bg: #D4D3D4;
     --surface: #121312;
     --border: #f1f1f4;
     --accent: #EE5737;
-    --text: #121213;
+    --text: #4D686A;
     --muted: #575759;
     --font-display: 'Playfair Display', serif;
     --font-body: 'Sora', sans-serif;
@@ -55,12 +55,12 @@
     animation: fadeUp 0.55s ease forwards 0.08s;
   }
   .hero h1 {
-    font-family: var(--font-display); font-size: clamp(2.4rem, 6vw, 5rem);
+    font-family: var(--font-display); font-size: 5rem;
     font-weight: 500; line-height: 1.15; letter-spacing: -0.02em;
     max-width: 800px; margin-bottom: 1.5rem;
   }
   .hero h1 em { font-style: italic; }
-  .hero p { font-size: clamp(1rem, 2vw, 1.15rem); color: var(--muted); max-width: 500px; margin-bottom: 2.5rem; font-family: var(--font-body); }
+  .hero p { font-size: 1.15rem; color: var(--muted); max-width: 500px; margin-bottom: 2.5rem; font-family: var(--font-body); }
   .hero-actions {
     display: flex; gap: 1rem; flex-wrap: wrap;
     opacity: 0; transform: translateY(14px);
@@ -152,7 +152,7 @@
 
   /* ABOUT */
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-  .about-grid h2 { font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; margin-bottom: 1.2rem; }
+  .about-grid h2 { font-family: var(--font-display); font-size: 2.2rem; font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; margin-bottom: 1.2rem; }
   .about-grid h2 em { font-style: italic; }
   .about-grid p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; font-family: var(--font-body); }
   .services { margin-top: 1rem; }
@@ -164,7 +164,7 @@
 
   /* CONTACT */
   .contact-inner { max-width: 600px; }
-  .contact-inner h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 500; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 1rem; }
+  .contact-inner h2 { font-family: var(--font-display); font-size: 3rem; font-weight: 500; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 1rem; }
   .contact-inner h2 em { font-style: italic; }
   .contact-inner p { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; font-family: var(--font-body); }
   .contact-email {
@@ -259,7 +259,7 @@
   <div class="contact-inner">
     <h2 class="split-heading">Got a product / Service? <em>Let's tell your story.</em></h2>
     <p class="split-body">I'm currently available for freelance projects. If you're building something and need motion design that actually helps people understand it — let's talk.</p>
-    <a class="contact-email reveal" href="mailto:ZynaGFX@gmail.com">Send an email →</a>
+    <a class="contact-email reveal" href="/cdn-cgi/l/email-protection#96cceff8f7d1d0ced6f1fbf7fffab8f5f9fb">Send an email →</a>
     <div class="social-links reveal">
       <a href="https://x.com/thezyna_">Twitter / X</a>
       <a href="https://vimeo.com/user208417578">Vimeo</a>
@@ -272,7 +272,7 @@
   <span>© 2026 zyna. All rights reserved.</span>
 </footer>
 
-<script src="https://player.vimeo.com/api/player.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://player.vimeo.com/api/player.js"></script>
 <script>
   // ── Utility: split element into word spans, preserving child elements ──
   function wrapWords(el, cls) {
@@ -365,10 +365,3 @@
   // Observe all animated elements
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   document.querySelectorAll('.split-heading, .split-body').forEach(el => {
-    // Give them an invisible base so they don't flash before JS runs
-    el.style.opacity = '0';
-    io.observe(el);
-  });
-</script>
-</body>
-</html>
