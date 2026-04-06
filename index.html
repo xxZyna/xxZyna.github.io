@@ -6,68 +6,123 @@
 <title>Zyna — Motion Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<!--
+  Chivo Mono:
+  - wght 300..900 covers all weight needs (light captions → heavy display)
+  - ital axis included for italic variants used in headings
+  - font-display: swap keeps text visible during font load
+-->
+<link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
 <style>
-  /* Prevent mobile browsers from auto-inflating or deflating font sizes */
+  /* ── Reset & prevent mobile font-size inflation ── */
   html {
     -webkit-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
     text-size-adjust: 100%;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #181613;
+    --bg:      #181613;
     --surface: #121312;
-    --border: #f1f1f4;
-    --accent: #EE5737;
-    --text: #DAE3D9;
-    --muted: #575759;
-    --font-display: 'Playfair Display', serif;
-    --font-body: 'Sora', sans-serif;
+    --border:  #3C3C3C;
+    --accent:  #EE5737;
+    --text:    #EE5737;
+    --muted:   #b5b5b5;
+    --font:    'Chivo Mono', monospace;
+
+    /* Fluid type scale – clamp(min, preferred, max) keeps sizes sane on every viewport */
+    --text-xs:   clamp(0.65rem,  1.5vw, 0.70rem);
+    --text-sm:   clamp(0.78rem,  1.8vw, 0.85rem);
+    --text-base: clamp(0.88rem,  2vw,   0.95rem);
+    --text-lg:   clamp(1rem,     2.5vw, 1.1rem);
+    --text-xl:   clamp(1.6rem,   4vw,   2rem);
+    --text-2xl:  clamp(2rem,     5vw,   3rem);
+    --text-hero: clamp(2.4rem,   7vw,   5rem);
   }
 
   html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--text); font-family: 'Sora', sans-serif; line-height: 1.6; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: var(--text-base);
+    line-height: 1.65;
+  }
 
-  /* NAV */
+  /* ── NAV ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
-    padding: 1.2rem 5%; border-bottom: 1px solid var(--border);
-    background: rgba(241,241,244,0.92); backdrop-filter: blur(10px);
+    padding: 1.2rem 5%;
+    border-bottom: 1px solid var(--border);
+    background: rgba(241,241,244,0.92);
+    backdrop-filter: blur(10px);
   }
-  .logo { font-size: 1rem; font-weight: 700; letter-spacing: 0.05em; color: var(--text); text-decoration: none; font-family: 'Sora', sans-serif; }
+  .logo {
+    font-family: var(--font);
+    font-size: var(--text-sm);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    text-decoration: none;
+  }
   nav a.cta {
-    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-    color: #fff; background: var(--accent); padding: 0.5rem 1.2rem; border-radius: 2px;
-    text-decoration: none; font-family: 'Sora', sans-serif;
-    transition: box-shadow 0.35s ease, filter 0.35s ease, opacity 0.2s;
+    font-family: var(--font);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--accent);
+    padding: 0.5rem 1.2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: box-shadow 0.35s ease, filter 0.35s ease;
   }
   nav a.cta:hover {
     box-shadow: 0 0 18px rgba(238,87,55,0.6), 0 0 42px rgba(238,87,55,0.28);
     filter: brightness(1.08);
   }
 
-  /* HERO */
+  /* ── HERO ── */
   .hero {
-    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
-    padding: 8rem 5% 4rem; border-bottom: 1px solid var(--border);
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 5% 4rem;
+    border-bottom: 1px solid var(--border);
   }
   .hero-tag {
-    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 1.5rem; font-family: 'Sora', sans-serif;
+    font-family: var(--font);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
     opacity: 0; transform: translateY(14px);
     animation: fadeUp 0.55s ease forwards 0.08s;
   }
   .hero h1 {
-    font-family: 'Playfair Display', serif; font-size: 80px;
-    font-weight: 500; line-height: 1.15; letter-spacing: -0.02em;
-    max-width: 800px; margin-bottom: 1.5rem;
+    font-family: var(--font);
+    font-size: var(--text-hero);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    max-width: 820px;
+    margin-bottom: 1.5rem;
   }
-  .hero h1 em { font-style: italic; }
-  .hero p { font-size: 18px; color: var(--muted); max-width: 500px; margin-bottom: 2.5rem; font-family: 'Sora', sans-serif; }
+  /* italic via font-style so Chivo Mono's italic axis is used */
+  .hero h1 em { font-style: italic; font-weight: 500; }
+
+  .hero p {
+    font-family: var(--font);
+    font-size: var(--text-sm);
+    color: var(--muted);
+    max-width: 500px;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
   .hero-actions {
     display: flex; gap: 1rem; flex-wrap: wrap;
     opacity: 0; transform: translateY(14px);
@@ -78,16 +133,14 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* word spans — heading (fade + rise) */
+  /* word-split animations */
   .word {
     display: inline-block;
-    opacity: 0;
-    transform: translateY(20px);
+    opacity: 0; transform: translateY(20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
   }
   .word.visible { opacity: 1; transform: translateY(0); }
 
-  /* word spans — body (fade only) */
   .word-fade {
     display: inline-block;
     opacity: 0;
@@ -95,12 +148,16 @@
   }
   .word-fade.visible { opacity: 1; }
 
-  /* BUTTONS */
+  /* ── BUTTONS ── */
   .btn-primary {
-    display: inline-block; background: var(--accent); color: #fff;
-    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    display: inline-block;
+    font-family: var(--font);
+    font-size: var(--text-sm);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--accent); color: #fff;
     padding: 0.85rem 2rem; border-radius: 2px; text-decoration: none;
-    font-family: 'Sora', sans-serif;
     transition: box-shadow 0.35s ease, filter 0.35s ease;
   }
   .btn-primary:hover {
@@ -108,10 +165,14 @@
     filter: brightness(1.1);
   }
   .btn-secondary {
-    display: inline-block; border: 1px solid var(--border); color: var(--text);
-    font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    display: inline-block;
+    font-family: var(--font);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid var(--border); color: var(--text);
     padding: 0.85rem 2rem; border-radius: 2px; text-decoration: none;
-    font-family: 'Sora', sans-serif;
     transition: border-color 0.25s, box-shadow 0.35s ease;
   }
   .btn-secondary:hover {
@@ -119,27 +180,48 @@
     box-shadow: 0 0 14px rgba(18,18,19,0.1), 0 0 28px rgba(18,18,19,0.06);
   }
 
-  /* SECTION SHARED */
+  /* ── SECTION SHARED ── */
   section { padding: 5rem 5%; border-bottom: 1px solid var(--border); }
-  .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 2.5rem; font-family: 'Sora', sans-serif; }
 
   /* generic scroll reveal */
   .reveal {
-    opacity: 0;
-    transform: translateY(26px);
+    opacity: 0; transform: translateY(26px);
     transition: opacity 0.65s ease, transform 0.65s ease;
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* heading word-split */
-  .split-heading { line-height: 1.15; }
-  .split-body { }
+  /* ── WORK ── */
+  /* "Featured Work" — promoted to visible section heading */
+  .section-heading {
+    font-family: var(--font);
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 3rem;
+    line-height: 1.1;
+  }
+  /* subtle accent underscore */
+  .section-heading span {
+    display: block;
+    width: 2.5rem;
+    height: 3px;
+    background: var(--accent);
+    margin-top: 0.6rem;
+    border-radius: 1px;
+  }
 
-  /* WORK */
   .work-item { margin-bottom: 4rem; }
   .work-item:last-child { margin-bottom: 0; }
-  .work-number { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; font-family: 'Sora', sans-serif; }
-
+  .work-number {
+    font-family: var(--font);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
   .video-wrap {
     position: relative; width: 100%; max-width: 900px; aspect-ratio: 16/9;
     background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
@@ -147,56 +229,144 @@
   }
   .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 
-  .work-meta h3 { font-family: 'Sora', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; }
-  .work-meta p { color: var(--muted); font-size: 0.9rem; max-width: 600px; font-family: 'Sora', sans-serif; }
+  .work-meta h3 {
+    font-family: var(--font);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.4rem;
+  }
+  .work-meta p {
+    font-family: var(--font);
+    font-size: var(--text-sm);
+    color: var(--muted);
+    max-width: 600px;
+  }
   .tag {
-    display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
-    text-transform: uppercase; border: 1px solid var(--border); color: var(--muted);
-    padding: 0.25rem 0.65rem; border-radius: 2px; margin: 1rem 0.3rem 0 0;
-    font-family: 'Sora', sans-serif;
+    display: inline-block;
+    font-family: var(--font);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--border); color: var(--muted);
+    padding: 0.25rem 0.65rem; border-radius: 2px;
+    margin: 1rem 0.3rem 0 0;
   }
   .work-divider { border: none; border-top: 1px solid var(--border); margin: 4rem 0; max-width: 900px; }
 
-  /* ABOUT */
+  /* ── ABOUT ── */
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-  .about-grid h2 { font-family: 'Playfair Display', serif; font-size: 35px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; margin-bottom: 1.2rem; }
-  .about-grid h2 em { font-style: italic; }
-  .about-grid p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; font-family: 'Sora', sans-serif; }
+  .about-grid h2 {
+    font-family: var(--font);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 1.2rem;
+  }
+  .about-grid h2 em { font-style: italic; font-weight: 500; }
+  .about-grid p {
+    font-family: var(--font);
+    font-size: var(--text-sm);
+    color: var(--muted);
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
   .services { margin-top: 1rem; }
-  .service-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-top: 1px solid var(--border); }
+  .service-item {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1rem 0; border-top: 1px solid var(--border);
+  }
   .service-item:last-child { border-bottom: 1px solid var(--border); }
-  .service-num { font-size: 0.7rem; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; margin-top: 3px; min-width: 24px; font-family: 'Sora', sans-serif; }
-  .service-item h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 600; margin-bottom: 0.2rem; }
-  .service-item p { font-size: 0.82rem; color: var(--muted); margin: 0; font-family: 'Sora', sans-serif; }
+  .service-num {
+    font-family: var(--font);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-top: 3px; min-width: 24px;
+  }
+  .service-item h4 {
+    font-family: var(--font);
+    font-size: var(--text-base);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.2rem;
+  }
+  .service-item p {
+    font-family: var(--font);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    margin: 0;
+  }
 
-  /* CONTACT */
+  /* ── CONTACT ── */
   .contact-inner { max-width: 600px; }
-  .contact-inner h2 { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 1rem; }
-  .contact-inner h2 em { font-style: italic; }
-  .contact-inner p { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; font-family: 'Sora', sans-serif; }
+  .contact-inner h2 {
+    font-family: var(--font);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .contact-inner h2 em { font-style: italic; font-weight: 500; }
+  .contact-inner p {
+    font-family: var(--font);
+    font-size: var(--text-sm);
+    color: var(--muted);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
   .contact-email {
-    display: inline-flex; align-items: center; gap: 0.6rem; font-size: 1rem; font-weight: 700;
-    color: var(--text); text-decoration: none; border-bottom: 1px solid var(--accent);
-    padding-bottom: 2px; transition: color 0.2s; font-family: 'Sora', sans-serif;
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: var(--font);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text); text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+    transition: color 0.2s;
   }
   .contact-email:hover { color: var(--accent); }
   .social-links { display: flex; gap: 1rem; margin-top: 2rem; }
-  .social-links a { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; font-family: 'Sora', sans-serif; }
+  .social-links a {
+    font-family: var(--font);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    transition: color 0.2s;
+  }
   .social-links a:hover { color: var(--text); }
 
-  /* FOOTER */
-  footer { padding: 2rem 5%; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--muted); flex-wrap: wrap; gap: 0.5rem; font-family: 'Sora', sans-serif; }
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 5%;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 0.5rem;
+    font-family: var(--font);
+    font-size: var(--text-xs);
+    color: var(--muted);
+  }
 
+  /* ── RESPONSIVE ── */
   @media (max-width: 680px) {
     .about-grid { grid-template-columns: 1fr; gap: 2rem; }
     footer { flex-direction: column; align-items: flex-start; }
-
-    /* Explicit px overrides — browser cannot scale these */
-    .hero h1          { font-size: 40px; }
-    .hero p           { font-size: 15px; }
-    .about-grid h2    { font-size: 28px; }
-    .contact-inner h2 { font-size: 32px; }
+    /*
+      Fluid clamp() handles most sizing automatically.
+      These overrides only exist as a safety net for very narrow viewports.
+    */
+    .hero h1         { letter-spacing: -0.02em; }
+    .section-heading { margin-bottom: 2rem; }
   }
+
+  /* split-heading/split-body base state for scroll observer */
+  .split-heading,
+  .split-body { opacity: 0; }
 </style>
 </head>
 <body>
@@ -220,12 +390,22 @@
 
 <!-- WORK -->
 <section id="work">
-  <p class="section-label reveal">Featured Work</p>
+
+  <!-- Promoted heading -->
+  <h2 class="section-heading reveal">
+    Featured Work
+    <span aria-hidden="true"></span>
+  </h2>
 
   <div class="work-item reveal">
     <p class="work-number">Project 01</p>
     <div class="video-wrap">
-      <iframe src="https://player.vimeo.com/video/1180048681?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Copilot Health Motion Design"></iframe>
+      <iframe src="https://player.vimeo.com/video/1180048681?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        title="Copilot Health Motion Design">
+      </iframe>
     </div>
     <div class="work-meta">
       <h3>Copilot Health</h3>
@@ -240,7 +420,11 @@
   <div class="work-item reveal">
     <p class="work-number">Project 02</p>
     <div class="video-wrap">
-      <iframe src="https://player.vimeo.com/video/1171686774?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="Jumia Delivery Services — Product Demo Concept"></iframe>
+      <iframe src="https://player.vimeo.com/video/1171686774?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+        title="Jumia Delivery Services — Product Demo Concept">
+      </iframe>
     </div>
     <div class="work-meta">
       <h3>Jumia Shipping Services — Product Demo Concept</h3>
@@ -256,7 +440,11 @@
   <div class="work-item reveal">
     <p class="work-number">Project 03</p>
     <div class="video-wrap">
-      <iframe src="https://player.vimeo.com/video/1173224077?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="CHO MOTION"></iframe>
+      <iframe src="https://player.vimeo.com/video/1173224077?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+        title="CHO MOTION">
+      </iframe>
     </div>
     <div class="work-meta">
       <h3>CHO Tokens — Token Introduction Video</h3>
@@ -286,9 +474,10 @@
   <span>© 2026 zyna. All rights reserved.</span>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://player.vimeo.com/api/player.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script src="https://player.vimeo.com/api/player.js"></script>
 <script>
-  // ── Utility: split element into word spans, preserving child elements ──
+  // ── Utility: split element text into word spans ──────────────────────
   function wrapWords(el, cls) {
     function walk(node) {
       if (node.nodeType === Node.TEXT_NODE) {
@@ -312,7 +501,7 @@
     walk(el);
   }
 
-  // ── Hero heading — word fade + rise, auto on load ─────────────
+  // ── Hero heading: word fade + rise on load ───────────────────────────
   const heroH = document.getElementById('hero-heading');
   wrapWords(heroH, 'word');
   heroH.querySelectorAll('.word').forEach((w, i) => {
@@ -322,7 +511,7 @@
     heroH.querySelectorAll('.word').forEach(w => w.classList.add('visible'));
   }));
 
-  // ── Hero subtext — word fade only, auto on load ───────────────
+  // ── Hero subtext: word fade on load ─────────────────────────────────
   const heroSub = document.getElementById('hero-sub');
   wrapWords(heroSub, 'word-fade');
   heroSub.querySelectorAll('.word-fade').forEach((w, i) => {
@@ -332,12 +521,12 @@
     heroSub.querySelectorAll('.word-fade').forEach(w => w.classList.add('visible'));
   }));
 
-  // ── Stagger service items ─────────────────────────────────────
+  // ── Stagger service items ────────────────────────────────────────────
   document.querySelectorAll('.service-item.reveal').forEach((el, i) => {
     el.style.transitionDelay = `${i * 0.1}s`;
   });
 
-  // ── IntersectionObserver for scroll-triggered elements ────────
+  // ── IntersectionObserver: scroll-triggered reveals ───────────────────
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
@@ -353,7 +542,6 @@
         requestAnimationFrame(() => {
           el.querySelectorAll('.word').forEach(w => w.classList.add('visible'));
         });
-
       } else if (el.classList.contains('split-body')) {
         wrapWords(el, 'word-fade');
         el.querySelectorAll('.word-fade').forEach((w, i) => {
@@ -364,7 +552,6 @@
         requestAnimationFrame(() => {
           el.querySelectorAll('.word-fade').forEach(w => w.classList.add('visible'));
         });
-
       } else {
         el.classList.add('visible');
       }
@@ -373,13 +560,8 @@
     });
   }, { threshold: 0.1 });
 
-  // Observe all animated elements
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  document.querySelectorAll('.split-heading, .split-body').forEach(el => {
-    // Give them an invisible base so they don't flash before JS runs
-    el.style.opacity = '0';
-    io.observe(el);
-  });
+  document.querySelectorAll('.split-heading, .split-body').forEach(el => io.observe(el));
 </script>
 </body>
 </html>
