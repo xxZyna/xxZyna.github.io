@@ -6,15 +6,8 @@
 <title>Zyna — Motion Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!--
-  Chivo Mono:
-  - wght 300..900 covers all weight needs (light captions → heavy display)
-  - ital axis included for italic variants used in headings
-  - font-display: swap keeps text visible during font load
--->
 <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
 <style>
-  /* ── Reset & prevent mobile font-size inflation ── */
   html {
     -webkit-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
@@ -25,13 +18,12 @@
   :root {
     --bg:      #181613;
     --surface: #121312;
-    --border:  #3C3C3C;
+    --border:  #3c3c3c;
     --accent:  #EE5737;
     --text:    #EE5737;
-    --muted:   #b5b5b5;
+    --muted:   #646464;
     --font:    'Chivo Mono', monospace;
 
-    /* Fluid type scale – clamp(min, preferred, max) keeps sizes sane on every viewport */
     --text-xs:   clamp(0.65rem,  1.5vw, 0.70rem);
     --text-sm:   clamp(0.78rem,  1.8vw, 0.85rem);
     --text-base: clamp(0.88rem,  2vw,   0.95rem);
@@ -87,11 +79,29 @@
 
   /* ── HERO ── */
   .hero {
+    position: relative;
     min-height: 100vh;
     display: flex; flex-direction: column; justify-content: center;
     padding: 8rem 5% 4rem;
     border-bottom: 1px solid var(--border);
+    overflow: hidden;
   }
+
+  /* dot canvas — behind everything */
+  #dot-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* hero content sits above canvas */
+  .hero > *:not(#dot-canvas) { position: relative; z-index: 1; }
+
+  /* ── HERO TAG — typewriter + glow ── */
   .hero-tag {
     font-family: var(--font);
     font-size: var(--text-xs);
@@ -100,9 +110,43 @@
     text-transform: uppercase;
     color: var(--muted);
     margin-bottom: 1.5rem;
-    opacity: 0; transform: translateY(14px);
-    animation: fadeUp 0.55s ease forwards 0.08s;
+    opacity: 0;
+    min-height: 1.2em;
+    white-space: nowrap;
   }
+
+  /* blinking cursor */
+  .hero-tag .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 0.85em;
+    background: var(--accent);
+    margin-left: 3px;
+    vertical-align: middle;
+    animation: blink 0.85s step-end infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* glow phase */
+  .hero-tag.glowing {
+    color: var(--text);
+    animation: tagPulse 2.8s ease-in-out infinite alternate;
+  }
+  @keyframes tagPulse {
+    from {
+      text-shadow:
+        0 0 6px  rgba(238,87,55,0.45),
+        0 0 18px rgba(238,87,55,0.22),
+        0 0 40px rgba(238,87,55,0.10);
+    }
+    to {
+      text-shadow:
+        0 0 10px rgba(238,87,55,0.85),
+        0 0 28px rgba(238,87,55,0.50),
+        0 0 60px rgba(238,87,55,0.22);
+    }
+  }
+
   .hero h1 {
     font-family: var(--font);
     font-size: var(--text-hero);
@@ -112,7 +156,6 @@
     max-width: 820px;
     margin-bottom: 1.5rem;
   }
-  /* italic via font-style so Chivo Mono's italic axis is used */
   .hero h1 em { font-style: italic; font-weight: 500; }
 
   .hero p {
@@ -129,11 +172,9 @@
     animation: fadeUp 0.55s ease forwards 0.6s;
   }
 
-  @keyframes fadeUp {
-    to { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
-  /* word-split animations */
+  /* word-split */
   .word {
     display: inline-block;
     opacity: 0; transform: translateY(20px);
@@ -177,13 +218,11 @@
   }
   .btn-secondary:hover {
     border-color: var(--accent);
-    box-shadow: 0 0 14px rgba(18,18,19,0.1), 0 0 28px rgba(18,18,19,0.06);
   }
 
   /* ── SECTION SHARED ── */
   section { padding: 5rem 5%; border-bottom: 1px solid var(--border); }
 
-  /* generic scroll reveal */
   .reveal {
     opacity: 0; transform: translateY(26px);
     transition: opacity 0.65s ease, transform 0.65s ease;
@@ -191,7 +230,6 @@
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
   /* ── WORK ── */
-  /* "Featured Work" — promoted to visible section heading */
   .section-heading {
     font-family: var(--font);
     font-size: var(--text-2xl);
@@ -201,7 +239,6 @@
     margin-bottom: 3rem;
     line-height: 1.1;
   }
-  /* subtle accent underscore */
   .section-heading span {
     display: block;
     width: 2.5rem;
@@ -254,52 +291,6 @@
     margin: 1rem 0.3rem 0 0;
   }
   .work-divider { border: none; border-top: 1px solid var(--border); margin: 4rem 0; max-width: 900px; }
-
-  /* ── ABOUT ── */
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-  .about-grid h2 {
-    font-family: var(--font);
-    font-size: var(--text-xl);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.15;
-    margin-bottom: 1.2rem;
-  }
-  .about-grid h2 em { font-style: italic; font-weight: 500; }
-  .about-grid p {
-    font-family: var(--font);
-    font-size: var(--text-sm);
-    color: var(--muted);
-    margin-bottom: 1rem;
-    line-height: 1.7;
-  }
-  .services { margin-top: 1rem; }
-  .service-item {
-    display: flex; align-items: flex-start; gap: 1rem;
-    padding: 1rem 0; border-top: 1px solid var(--border);
-  }
-  .service-item:last-child { border-bottom: 1px solid var(--border); }
-  .service-num {
-    font-family: var(--font);
-    font-size: var(--text-xs);
-    font-weight: 700;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    margin-top: 3px; min-width: 24px;
-  }
-  .service-item h4 {
-    font-family: var(--font);
-    font-size: var(--text-base);
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    margin-bottom: 0.2rem;
-  }
-  .service-item p {
-    font-family: var(--font);
-    font-size: var(--text-xs);
-    color: var(--muted);
-    margin: 0;
-  }
 
   /* ── CONTACT ── */
   .contact-inner { max-width: 600px; }
@@ -354,19 +345,13 @@
 
   /* ── RESPONSIVE ── */
   @media (max-width: 680px) {
-    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
     footer { flex-direction: column; align-items: flex-start; }
-    /*
-      Fluid clamp() handles most sizing automatically.
-      These overrides only exist as a safety net for very narrow viewports.
-    */
-    .hero h1         { letter-spacing: -0.02em; }
+    .hero h1 { letter-spacing: -0.02em; }
     .section-heading { margin-bottom: 2rem; }
+    .hero-tag { white-space: normal; }
   }
 
-  /* split-heading/split-body base state for scroll observer */
-  .split-heading,
-  .split-body { opacity: 0; }
+  .split-heading, .split-body { opacity: 0; }
 </style>
 </head>
 <body>
@@ -379,7 +364,8 @@
 
 <!-- HERO -->
 <section class="hero">
-  <p class="hero-tag">Motion Designer | Available for Work</p>
+  <canvas id="dot-canvas" aria-hidden="true"></canvas>
+  <p class="hero-tag" id="hero-tag"></p>
   <h1 id="hero-heading">I make your vision <em>impossible</em> to ignore.</h1>
   <p id="hero-sub">I help you turn complex products into clear, compelling motion, so your audience gets it instantly.</p>
   <div class="hero-actions">
@@ -390,8 +376,6 @@
 
 <!-- WORK -->
 <section id="work">
-
-  <!-- Promoted heading -->
   <h2 class="section-heading reveal">
     Featured Work
     <span aria-hidden="true"></span>
@@ -453,7 +437,6 @@
       <span class="tag">Crypto</span>
     </div>
   </div>
-
 </section>
 
 <!-- CONTACT -->
@@ -461,7 +444,7 @@
   <div class="contact-inner">
     <h2 class="split-heading">Got a product / Service? <em>Let's tell your story.</em></h2>
     <p class="split-body">I'm currently available for freelance projects. If you're building something and need motion design that actually helps people understand it — let's talk.</p>
-    <a class="contact-email reveal" href="/cdn-cgi/l/email-protection#96cceff8f7d1d0ced6f1fbf7fffab8f5f9fb">Send an email →</a>
+    <a class="contact-email reveal" href="mailto:Zynagfx@gmail.com">Send an email →</a>
     <div class="social-links reveal">
       <a href="https://x.com/thezyna_">Twitter / X</a>
       <a href="https://vimeo.com/user208417578">Vimeo</a>
@@ -474,94 +457,282 @@
   <span>© 2026 zyna. All rights reserved.</span>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
-  // ── Utility: split element text into word spans ──────────────────────
-  function wrapWords(el, cls) {
-    function walk(node) {
-      if (node.nodeType === Node.TEXT_NODE) {
-        const parts = node.textContent.split(/(\s+)/);
-        const frag = document.createDocumentFragment();
-        parts.forEach(p => {
-          if (/^\s+$/.test(p)) {
-            frag.appendChild(document.createTextNode(p));
-          } else if (p) {
-            const s = document.createElement('span');
-            s.className = cls;
-            s.textContent = p;
-            frag.appendChild(s);
-          }
-        });
-        node.parentNode.replaceChild(frag, node);
-      } else if (node.nodeType === Node.ELEMENT_NODE) {
-        Array.from(node.childNodes).forEach(walk);
-      }
+/* ═══════════════════════════════════════════════════════
+   1. TYPEWRITER + GLOW — hero tag
+═══════════════════════════════════════════════════════ */
+(function () {
+  const tag  = document.getElementById('hero-tag');
+  const full = 'Available for Work';
+  const SPEED = 46;          // ms per character
+  const PAUSE = 900;         // hold after last char before glow
+
+  // cursor span
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  cursor.setAttribute('aria-hidden', 'true');
+
+  tag.style.opacity = '1';
+  tag.appendChild(cursor);
+
+  let i = 0;
+  function tick() {
+    if (i < full.length) {
+      tag.insertBefore(document.createTextNode(full[i]), cursor);
+      i++;
+      setTimeout(tick, SPEED);
+    } else {
+      setTimeout(() => {
+        cursor.remove();
+        tag.classList.add('glowing');
+      }, PAUSE);
     }
-    walk(el);
+  }
+  setTimeout(tick, 400);
+})();
+
+
+/* ═══════════════════════════════════════════════════════
+   2. MORPHING DOT GRID — canvas hero background
+   Cycle: Grid → Circle → Square → Heptagon → Grid …
+═══════════════════════════════════════════════════════ */
+(function () {
+  const canvas = document.getElementById('dot-canvas');
+  const ctx    = canvas.getContext('2d');
+
+  const COLS      = 20;
+  const ROWS      = 14;
+  const DOT_R     = 1.7;
+  const MORPH_MS  = 1900;   // morph duration
+  const HOLD_MS   = 1300;   // pause between morphs
+
+  let W, H, dots;
+
+  /* ── target shape calculators ── */
+  function gridTargets() {
+    const gW = (COLS - 1) * (W / COLS);
+    const gH = (ROWS - 1) * (H / ROWS);
+    const ox = (W - gW) / 2;
+    const oy = (H - gH) / 2;
+    return dots.map((_, i) => ({
+      x: ox + (i % COLS) * (W / COLS),
+      y: oy + Math.floor(i / COLS) * (H / ROWS)
+    }));
   }
 
-  // ── Hero heading: word fade + rise on load ───────────────────────────
-  const heroH = document.getElementById('hero-heading');
-  wrapWords(heroH, 'word');
-  heroH.querySelectorAll('.word').forEach((w, i) => {
-    w.style.transitionDelay = `${0.18 + i * 0.075}s`;
-  });
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    heroH.querySelectorAll('.word').forEach(w => w.classList.add('visible'));
-  }));
+  function circleTargets(n) {
+    const r = Math.min(W, H) * 0.30;
+    return dots.map((_, i) => ({
+      x: W / 2 + r * Math.cos((i / n) * Math.PI * 2 - Math.PI / 2),
+      y: H / 2 + r * Math.sin((i / n) * Math.PI * 2 - Math.PI / 2)
+    }));
+  }
 
-  // ── Hero subtext: word fade on load ─────────────────────────────────
-  const heroSub = document.getElementById('hero-sub');
-  wrapWords(heroSub, 'word-fade');
-  heroSub.querySelectorAll('.word-fade').forEach((w, i) => {
-    w.style.transitionDelay = `${0.5 + i * 0.048}s`;
-  });
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    heroSub.querySelectorAll('.word-fade').forEach(w => w.classList.add('visible'));
-  }));
+  function squareTargets(n) {
+    const side = Math.min(W, H) * 0.52;
+    const half = side / 2;
+    const perim = side * 4;
+    return dots.map((_, i) => {
+      const t = (i / n) * perim;
+      let x, y;
+      if      (t < side)       { x = -half + t;              y = -half; }
+      else if (t < 2 * side)   { x =  half;                  y = -half + (t - side); }
+      else if (t < 3 * side)   { x =  half - (t - 2*side);   y =  half; }
+      else                     { x = -half;                   y =  half - (t - 3*side); }
+      return { x: W/2 + x, y: H/2 + y };
+    });
+  }
 
-  // ── Stagger service items ────────────────────────────────────────────
-  document.querySelectorAll('.service-item.reveal').forEach((el, i) => {
-    el.style.transitionDelay = `${i * 0.1}s`;
-  });
+  function polyTargets(n, sides) {
+    const r      = Math.min(W, H) * 0.30;
+    const sector = (Math.PI * 2) / sides;
+    return dots.map((_, i) => {
+      const ang = (i / n) * Math.PI * 2 - Math.PI / 2;
+      const a0  = Math.floor(ang / sector) * sector;
+      const a1  = a0 + sector;
+      const t   = (ang - a0) / sector;
+      return {
+        x: W/2 + (r * Math.cos(a0) * (1-t) + r * Math.cos(a1) * t),
+        y: H/2 + (r * Math.sin(a0) * (1-t) + r * Math.sin(a1) * t)
+      };
+    });
+  }
 
-  // ── IntersectionObserver: scroll-triggered reveals ───────────────────
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el = entry.target;
+  function getTargets(phase, n) {
+    switch (phase % 4) {
+      case 0: return gridTargets();
+      case 1: return circleTargets(n);
+      case 2: return squareTargets(n);
+      case 3: return polyTargets(n, 7);
+    }
+  }
 
-      if (el.classList.contains('split-heading')) {
-        wrapWords(el, 'word');
-        el.querySelectorAll('.word').forEach((w, i) => {
-          w.style.transitionDelay = `${i * 0.065}s`;
-        });
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-        requestAnimationFrame(() => {
-          el.querySelectorAll('.word').forEach(w => w.classList.add('visible'));
-        });
-      } else if (el.classList.contains('split-body')) {
-        wrapWords(el, 'word-fade');
-        el.querySelectorAll('.word-fade').forEach((w, i) => {
-          w.style.transitionDelay = `${i * 0.042}s`;
-        });
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-        requestAnimationFrame(() => {
-          el.querySelectorAll('.word-fade').forEach(w => w.classList.add('visible'));
-        });
-      } else {
-        el.classList.add('visible');
+  /* ── easing ── */
+  function ease(t) { return t < 0.5 ? 2*t*t : -1 + (4-2*t)*t; }
+
+  /* ── state ── */
+  let phase = 0, morphing = false, morphStart = 0;
+  let fromPos = [], toPos = [];
+
+  function beginMorph() {
+    fromPos   = dots.map(d => ({ x: d.x, y: d.y }));
+    phase++;
+    toPos     = getTargets(phase, dots.length);
+    morphing  = true;
+    morphStart = performance.now();
+  }
+
+  /* ── render loop ── */
+  function frame(now) {
+    ctx.clearRect(0, 0, W, H);
+
+    let progress = 0;
+    if (morphing) {
+      progress = Math.min((now - morphStart) / MORPH_MS, 1);
+      const ep = ease(progress);
+      for (let i = 0; i < dots.length; i++) {
+        dots[i].x = fromPos[i].x + (toPos[i].x - fromPos[i].x) * ep;
+        dots[i].y = fromPos[i].y + (toPos[i].y - fromPos[i].y) * ep;
+      }
+      if (progress >= 1) {
+        morphing = false;
+        setTimeout(beginMorph, HOLD_MS);
+      }
+    }
+
+    // accent pulse intensity peaks mid-morph
+    const accentPulse = Math.sin(progress * Math.PI);
+
+    for (let i = 0; i < dots.length; i++) {
+      const breathe = 0.35 + 0.25 * Math.sin(now * 0.0007 + i * 0.38);
+      const alpha   = breathe + accentPulse * 0.30;
+
+      // blend base colour with accent during morph
+      let r = 218, g = 227, b = 217;
+      if (accentPulse > 0.05) {
+        r = Math.round(218 + (238-218) * accentPulse * 0.7);
+        g = Math.round(227 + (87 -227) * accentPulse * 0.7);
+        b = Math.round(217 + (55 -217) * accentPulse * 0.7);
       }
 
-      io.unobserve(el);
-    });
-  }, { threshold: 0.1 });
+      ctx.beginPath();
+      ctx.arc(dots[i].x, dots[i].y, DOT_R, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${r},${g},${b},${alpha.toFixed(2)})`;
+      ctx.fill();
+    }
 
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  document.querySelectorAll('.split-heading, .split-body').forEach(el => io.observe(el));
+    requestAnimationFrame(frame);
+  }
+
+  /* ── init / resize ── */
+  function init() {
+    W = canvas.offsetWidth;
+    H = canvas.offsetHeight;
+    canvas.width  = W;
+    canvas.height = H;
+
+    const n = COLS * ROWS;
+    // start every dot at its grid position
+    const gW = (COLS - 1) * (W / COLS);
+    const gH = (ROWS - 1) * (H / ROWS);
+    const ox = (W - gW) / 2;
+    const oy = (H - gH) / 2;
+    dots = Array.from({ length: n }, (_, i) => ({
+      x: ox + (i % COLS) * (W / COLS),
+      y: oy + Math.floor(i / COLS) * (H / ROWS)
+    }));
+
+    morphing = false;
+    phase    = 0;
+    setTimeout(beginMorph, HOLD_MS);
+    requestAnimationFrame(frame);
+  }
+
+  let rsz;
+  window.addEventListener('resize', () => {
+    clearTimeout(rsz);
+    rsz = setTimeout(init, 160);
+  });
+
+  init();
+})();
+
+
+/* ═══════════════════════════════════════════════════════
+   3. WORD-SPLIT + SCROLL REVEALS
+═══════════════════════════════════════════════════════ */
+function wrapWords(el, cls) {
+  function walk(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const parts = node.textContent.split(/(\s+)/);
+      const frag  = document.createDocumentFragment();
+      parts.forEach(p => {
+        if (/^\s+$/.test(p)) {
+          frag.appendChild(document.createTextNode(p));
+        } else if (p) {
+          const s = document.createElement('span');
+          s.className   = cls;
+          s.textContent = p;
+          frag.appendChild(s);
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      Array.from(node.childNodes).forEach(walk);
+    }
+  }
+  walk(el);
+}
+
+// hero heading
+const heroH = document.getElementById('hero-heading');
+wrapWords(heroH, 'word');
+heroH.querySelectorAll('.word').forEach((w, i) => {
+  w.style.transitionDelay = `${0.18 + i * 0.075}s`;
+});
+requestAnimationFrame(() => requestAnimationFrame(() => {
+  heroH.querySelectorAll('.word').forEach(w => w.classList.add('visible'));
+}));
+
+// hero sub
+const heroSub = document.getElementById('hero-sub');
+wrapWords(heroSub, 'word-fade');
+heroSub.querySelectorAll('.word-fade').forEach((w, i) => {
+  w.style.transitionDelay = `${0.5 + i * 0.048}s`;
+});
+requestAnimationFrame(() => requestAnimationFrame(() => {
+  heroSub.querySelectorAll('.word-fade').forEach(w => w.classList.add('visible'));
+}));
+
+// intersection observer
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    if (el.classList.contains('split-heading')) {
+      wrapWords(el, 'word');
+      el.querySelectorAll('.word').forEach((w, i) => {
+        w.style.transitionDelay = `${i * 0.065}s`;
+      });
+      el.style.opacity = '1';
+      requestAnimationFrame(() => el.querySelectorAll('.word').forEach(w => w.classList.add('visible')));
+    } else if (el.classList.contains('split-body')) {
+      wrapWords(el, 'word-fade');
+      el.querySelectorAll('.word-fade').forEach((w, i) => {
+        w.style.transitionDelay = `${i * 0.042}s`;
+      });
+      el.style.opacity = '1';
+      requestAnimationFrame(() => el.querySelectorAll('.word-fade').forEach(w => w.classList.add('visible')));
+    } else {
+      el.classList.add('visible');
+    }
+    io.unobserve(el);
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+document.querySelectorAll('.split-heading, .split-body').forEach(el => io.observe(el));
 </script>
 </body>
 </html>
