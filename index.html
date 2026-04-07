@@ -24,13 +24,13 @@
     --muted:   #6a6e73;
     --font:    'Chivo Mono', monospace;
 
-    --text-xs:   clamp(0.65rem,  1.5vw, 0.70rem);
-    --text-sm:   clamp(0.78rem,  1.8vw, 0.85rem);
-    --text-base: clamp(0.88rem,  2vw,   0.95rem);
-    --text-lg:   clamp(1rem,     2.5vw, 1.1rem);
-    --text-xl:   clamp(1.6rem,   4vw,   2rem);
-    --text-2xl:  clamp(2rem,     5vw,   3rem);
-    --text-hero: clamp(2.4rem,   7vw,   5rem);
+    --text-xs:   clamp(0.75rem,  1.7vw, 0.82rem);
+    --text-sm:   clamp(0.92rem,  2.1vw, 1.02rem);
+    --text-base: clamp(1.02rem,  2.3vw, 1.12rem);
+    --text-lg:   clamp(1.18rem,  2.8vw, 1.32rem);
+    --text-xl:   clamp(1.8rem,   4.5vw, 2.3rem);
+    --text-2xl:  clamp(2.3rem,   5.5vw, 3.4rem);
+    --text-hero: clamp(2.7rem,   7.5vw, 5.6rem);
   }
 
   html { scroll-behavior: smooth; }
@@ -95,7 +95,7 @@
     height: 100%;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.5;
+    opacity: 0.35; /* reduced from 0.5 by ~30% */
   }
 
   /* hero content sits above canvas */
@@ -465,10 +465,9 @@
 (function () {
   const tag  = document.getElementById('hero-tag');
   const full = 'Open To Work';
-  const SPEED = 46;          // ms per character
-  const PAUSE = 900;         // hold after last char before glow
+  const SPEED = 46;
+  const PAUSE = 900;
 
-  // cursor span
   const cursor = document.createElement('span');
   cursor.className = 'cursor';
   cursor.setAttribute('aria-hidden', 'true');
@@ -504,12 +503,11 @@
   const COLS      = 20;
   const ROWS      = 14;
   const DOT_R     = 1.7;
-  const MORPH_MS  = 1900;   // morph duration
-  const HOLD_MS   = 1300;   // pause between morphs
+  const MORPH_MS  = 1900;
+  const HOLD_MS   = 1300;
 
   let W, H, dots;
 
-  /* ── target shape calculators ── */
   function gridTargets() {
     const gW = (COLS - 1) * (W / COLS);
     const gH = (ROWS - 1) * (H / ROWS);
@@ -568,10 +566,8 @@
     }
   }
 
-  /* ── easing ── */
   function ease(t) { return t < 0.5 ? 2*t*t : -1 + (4-2*t)*t; }
 
-  /* ── state ── */
   let phase = 0, morphing = false, morphStart = 0;
   let fromPos = [], toPos = [];
 
@@ -583,7 +579,6 @@
     morphStart = performance.now();
   }
 
-  /* ── render loop ── */
   function frame(now) {
     ctx.clearRect(0, 0, W, H);
 
@@ -601,14 +596,12 @@
       }
     }
 
-    // accent pulse intensity peaks mid-morph
     const accentPulse = Math.sin(progress * Math.PI);
 
     for (let i = 0; i < dots.length; i++) {
       const breathe = 0.35 + 0.25 * Math.sin(now * 0.0007 + i * 0.38);
       const alpha   = breathe + accentPulse * 0.30;
 
-      // blend base colour with accent during morph
       let r = 218, g = 227, b = 217;
       if (accentPulse > 0.05) {
         r = Math.round(218 + (238-218) * accentPulse * 0.7);
@@ -625,7 +618,6 @@
     requestAnimationFrame(frame);
   }
 
-  /* ── init / resize ── */
   function init() {
     W = canvas.offsetWidth;
     H = canvas.offsetHeight;
@@ -633,7 +625,6 @@
     canvas.height = H;
 
     const n = COLS * ROWS;
-    // start every dot at its grid position
     const gW = (COLS - 1) * (W / COLS);
     const gH = (ROWS - 1) * (H / ROWS);
     const ox = (W - gW) / 2;
@@ -685,7 +676,6 @@ function wrapWords(el, cls) {
   walk(el);
 }
 
-// hero heading
 const heroH = document.getElementById('hero-heading');
 wrapWords(heroH, 'word');
 heroH.querySelectorAll('.word').forEach((w, i) => {
@@ -695,7 +685,6 @@ requestAnimationFrame(() => requestAnimationFrame(() => {
   heroH.querySelectorAll('.word').forEach(w => w.classList.add('visible'));
 }));
 
-// hero sub
 const heroSub = document.getElementById('hero-sub');
 wrapWords(heroSub, 'word-fade');
 heroSub.querySelectorAll('.word-fade').forEach((w, i) => {
@@ -705,7 +694,6 @@ requestAnimationFrame(() => requestAnimationFrame(() => {
   heroSub.querySelectorAll('.word-fade').forEach(w => w.classList.add('visible'));
 }));
 
-// intersection observer
 const io = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
