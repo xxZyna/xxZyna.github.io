@@ -25,13 +25,14 @@
     --font:    'Chivo Mono', monospace;
 
     --text-xs:   clamp(0.7rem,  1.7vw, 0.8rem);
-    --text-sm:   clamp(0.92rem,  2.1vw, 1.3rem);
-    --text-base: clamp(2.01rem,  3.5vw, 1.7rem);
-    --text-lg:   clamp(1.18rem,  2.8vw, 1.7rem);
-    --text-xl:   clamp(1.8rem,   4.5vw, 2.3rem);
-    --text-2xl:  clamp(2.3rem,   5.5vw, 3.4rem);
-    --text-hero: clamp(3.7rem,   9.0vw, 6.5rem);
+    --text-sm:   clamp(0.92rem, 2.1vw, 1.3rem);
+    --text-base: clamp(1.01rem, 2.3vw, 1.12rem);
+    --text-lg:   clamp(1.18rem, 2.8vw, 1.7rem);
+    --text-xl:   clamp(1.8rem,  4.5vw, 2.3rem);
+    --text-2xl:  clamp(2.3rem,  5.5vw, 3.4rem);
+    --text-hero: clamp(3.7rem,  9.0vw, 6.5rem);
   }
+
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg);
@@ -47,7 +48,7 @@
     display: flex; justify-content: space-between; align-items: center;
     padding: 1.2rem 5%;
     border-bottom: 1px solid var(--border);
-    background: rgba(241,241,244,0.92);
+    background: rgba(10,10,10,0.92);
     backdrop-filter: blur(10px);
   }
   .logo {
@@ -80,27 +81,23 @@
   .hero {
     position: relative;
     min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     padding: 8rem 5% 4rem;
     border-bottom: 1px solid var(--border);
     overflow: hidden;
   }
-
-  /* dot canvas — behind everything */
   #dot-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.35; /* reduced from 0.5 by ~30% */
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+    opacity: 0.35;
   }
-
-  /* hero content sits above canvas */
   .hero > *:not(#dot-canvas) { position: relative; z-index: 1; }
 
-  /* ── HERO TAG — typewriter + glow ── */
   .hero-tag {
     font-family: var(--font);
     font-size: var(--text-xs);
@@ -113,37 +110,22 @@
     min-height: 1.2em;
     white-space: nowrap;
   }
-
-  /* blinking cursor */
   .hero-tag .cursor {
     display: inline-block;
-    width: 2px;
-    height: 0.85em;
+    width: 2px; height: 0.85em;
     background: var(--accent);
-    margin-left: 3px;
-    vertical-align: middle;
+    margin-left: 3px; vertical-align: middle;
     animation: blink 0.85s step-end infinite;
   }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-  /* glow phase */
   .hero-tag.glowing {
     color: var(--text);
     animation: tagPulse 2.8s ease-in-out infinite alternate;
   }
   @keyframes tagPulse {
-    from {
-      text-shadow:
-        0 0 6px  rgba(238,87,55,0.45),
-        0 0 18px rgba(238,87,55,0.22),
-        0 0 40px rgba(238,87,55,0.10);
-    }
-    to {
-      text-shadow:
-        0 0 10px rgba(238,87,55,0.85),
-        0 0 28px rgba(238,87,55,0.50),
-        0 0 60px rgba(238,87,55,0.22);
-    }
+    from { text-shadow: 0 0 6px rgba(238,87,55,0.45), 0 0 18px rgba(238,87,55,0.22), 0 0 40px rgba(238,87,55,0.10); }
+    to   { text-shadow: 0 0 10px rgba(238,87,55,0.85), 0 0 28px rgba(238,87,55,0.50), 0 0 60px rgba(238,87,55,0.22); }
   }
 
   .hero h1 {
@@ -157,7 +139,7 @@
   }
   .hero h1 em { font-style: italic; font-weight: 500; }
 
-  .hero p {
+  .hero > p {
     font-family: var(--font);
     font-size: var(--text-sm);
     color: var(--muted);
@@ -166,26 +148,19 @@
     line-height: 1.7;
   }
   .hero-actions {
-    display: flex; gap: 1rem; flex-wrap: wrap;
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
     opacity: 0; transform: translateY(14px);
     animation: fadeUp 0.55s ease forwards 0.6s;
   }
-
   @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
-  /* word-split */
   .word {
     display: inline-block;
     opacity: 0; transform: translateY(20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
   }
   .word.visible { opacity: 1; transform: translateY(0); }
-
-  .word-fade {
-    display: inline-block;
-    opacity: 0;
-    transition: opacity 0.45s ease;
-  }
+  .word-fade { display: inline-block; opacity: 0; transition: opacity 0.45s ease; }
   .word-fade.visible { opacity: 1; }
 
   /* ── BUTTONS ── */
@@ -215,11 +190,9 @@
     padding: 0.85rem 2rem; border-radius: 2px; text-decoration: none;
     transition: border-color 0.25s, box-shadow 0.35s ease;
   }
-  .btn-secondary:hover {
-    border-color: var(--accent);
-  }
+  .btn-secondary:hover { border-color: var(--accent); }
 
-  /* ── SECTION SHARED ── */
+  /* ── SECTIONS ── */
   section { padding: 5rem 5%; border-bottom: 1px solid var(--border); }
 
   .reveal {
@@ -229,7 +202,15 @@
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
   /* ── WORK ── */
+  #work {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .section-heading {
+    width: 100%;
+    max-width: 900px;
     font-family: var(--font);
     font-size: var(--text-2xl);
     font-weight: 800;
@@ -237,18 +218,26 @@
     color: var(--text);
     margin-bottom: 3rem;
     line-height: 1.1;
+    text-align: center;
   }
   .section-heading span {
     display: block;
-    width: 2.5rem;
-    height: 3px;
+    width: 2.5rem; height: 3px;
     background: var(--accent);
-    margin-top: 0.6rem;
+    margin: 0.6rem auto 0;
     border-radius: 1px;
   }
 
-  .work-item { margin-bottom: 4rem; }
+  .work-item {
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .work-item:last-child { margin-bottom: 0; }
+
   .work-number {
     font-family: var(--font);
     font-size: var(--text-xs);
@@ -257,14 +246,17 @@
     text-transform: uppercase;
     color: var(--muted);
     margin-bottom: 1rem;
+    width: 100%;
+    text-align: center;
   }
   .video-wrap {
-    position: relative; width: 100%; max-width: 900px; aspect-ratio: 16/9;
+    position: relative; width: 100%; aspect-ratio: 16/9;
     background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
     overflow: hidden; margin-bottom: 1.5rem;
   }
   .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 
+  .work-meta { width: 100%; text-align: center; }
   .work-meta h3 {
     font-family: var(--font);
     font-size: var(--text-lg);
@@ -277,6 +269,8 @@
     font-size: var(--text-sm);
     color: var(--muted);
     max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
   }
   .tag {
     display: inline-block;
@@ -289,10 +283,26 @@
     padding: 0.25rem 0.65rem; border-radius: 2px;
     margin: 1rem 0.3rem 0 0;
   }
-  .work-divider { border: none; border-top: 1px solid var(--border); margin: 4rem 0; max-width: 900px; }
+  .work-divider {
+    border: none; border-top: 1px solid var(--border);
+    margin: 0 0 4rem 0;
+    width: 100%; max-width: 900px;
+  }
 
   /* ── CONTACT ── */
-  .contact-inner { max-width: 600px; }
+  #contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .contact-inner {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .contact-inner h2 {
     font-family: var(--font);
     font-size: var(--text-2xl);
@@ -320,7 +330,7 @@
     transition: color 0.2s;
   }
   .contact-email:hover { color: var(--accent); }
-  .social-links { display: flex; gap: 1rem; margin-top: 2rem; }
+  .social-links { display: flex; gap: 1rem; margin-top: 2rem; justify-content: center; }
   .social-links a {
     font-family: var(--font);
     font-size: var(--text-xs);
@@ -342,12 +352,28 @@
     color: var(--muted);
   }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 680px) {
-    footer { flex-direction: column; align-items: flex-start; }
+  @media (max-width: 768px) {
+    .hero { align-items: flex-start; text-align: left; }
+    .hero > p { text-align: left; }
     .hero h1 { letter-spacing: -0.02em; }
-    .section-heading { margin-bottom: 2rem; }
+    .hero-actions { justify-content: flex-start; }
     .hero-tag { white-space: normal; }
+
+    #work { align-items: flex-start; }
+    .section-heading { text-align: left; margin-bottom: 2rem; }
+    .section-heading span { margin: 0.6rem 0 0 0; }
+    .work-item { align-items: flex-start; }
+    .work-number { text-align: left; }
+    .work-meta { text-align: left; }
+    .work-meta p { margin: 0; text-align: left; }
+
+    #contact { align-items: flex-start; }
+    .contact-inner { align-items: flex-start; text-align: left; }
+    .contact-inner h2 { text-align: left; }
+    .contact-inner p { text-align: left; }
+    .social-links { justify-content: flex-start; }
+
+    footer { flex-direction: column; align-items: flex-start; }
   }
 
   .split-heading, .split-body { opacity: 0; }
@@ -458,268 +484,135 @@
 
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
-/* ═══════════════════════════════════════════════════════
-   1. TYPEWRITER + GLOW — hero tag
-═══════════════════════════════════════════════════════ */
+/* ── 1. TYPEWRITER + GLOW ── */
 (function () {
   const tag  = document.getElementById('hero-tag');
   const full = 'Open To Work';
-  const SPEED = 46;
-  const PAUSE = 900;
-
+  const SPEED = 46, PAUSE = 900;
   const cursor = document.createElement('span');
   cursor.className = 'cursor';
   cursor.setAttribute('aria-hidden', 'true');
-
   tag.style.opacity = '1';
   tag.appendChild(cursor);
-
   let i = 0;
   function tick() {
-    if (i < full.length) {
-      tag.insertBefore(document.createTextNode(full[i]), cursor);
-      i++;
-      setTimeout(tick, SPEED);
-    } else {
-      setTimeout(() => {
-        cursor.remove();
-        tag.classList.add('glowing');
-      }, PAUSE);
-    }
+    if (i < full.length) { tag.insertBefore(document.createTextNode(full[i]), cursor); i++; setTimeout(tick, SPEED); }
+    else { setTimeout(() => { cursor.remove(); tag.classList.add('glowing'); }, PAUSE); }
   }
   setTimeout(tick, 400);
 })();
 
-
-/* ═══════════════════════════════════════════════════════
-   2. MORPHING DOT GRID — canvas hero background
-   Cycle: Grid → Circle → Square → Heptagon → Grid …
-═══════════════════════════════════════════════════════ */
+/* ── 2. MORPHING DOT GRID ── */
 (function () {
   const canvas = document.getElementById('dot-canvas');
-  const ctx    = canvas.getContext('2d');
-
-  const COLS      = 20;
-  const ROWS      = 14;
-  const DOT_R     = 1.7;
-  const MORPH_MS  = 1900;
-  const HOLD_MS   = 1300;
-
+  const ctx = canvas.getContext('2d');
+  const COLS=20, ROWS=14, DOT_R=1.7, MORPH_MS=1900, HOLD_MS=1300;
   let W, H, dots;
 
   function gridTargets() {
-    const gW = (COLS - 1) * (W / COLS);
-    const gH = (ROWS - 1) * (H / ROWS);
-    const ox = (W - gW) / 2;
-    const oy = (H - gH) / 2;
-    return dots.map((_, i) => ({
-      x: ox + (i % COLS) * (W / COLS),
-      y: oy + Math.floor(i / COLS) * (H / ROWS)
-    }));
+    const gW=(COLS-1)*(W/COLS), gH=(ROWS-1)*(H/ROWS), ox=(W-gW)/2, oy=(H-gH)/2;
+    return dots.map((_,i)=>({x:ox+(i%COLS)*(W/COLS), y:oy+Math.floor(i/COLS)*(H/ROWS)}));
   }
-
   function circleTargets(n) {
-    const r = Math.min(W, H) * 0.30;
-    return dots.map((_, i) => ({
-      x: W / 2 + r * Math.cos((i / n) * Math.PI * 2 - Math.PI / 2),
-      y: H / 2 + r * Math.sin((i / n) * Math.PI * 2 - Math.PI / 2)
-    }));
+    const r=Math.min(W,H)*0.30;
+    return dots.map((_,i)=>({x:W/2+r*Math.cos((i/n)*Math.PI*2-Math.PI/2), y:H/2+r*Math.sin((i/n)*Math.PI*2-Math.PI/2)}));
   }
-
   function squareTargets(n) {
-    const side = Math.min(W, H) * 0.52;
-    const half = side / 2;
-    const perim = side * 4;
-    return dots.map((_, i) => {
-      const t = (i / n) * perim;
-      let x, y;
-      if      (t < side)       { x = -half + t;              y = -half; }
-      else if (t < 2 * side)   { x =  half;                  y = -half + (t - side); }
-      else if (t < 3 * side)   { x =  half - (t - 2*side);   y =  half; }
-      else                     { x = -half;                   y =  half - (t - 3*side); }
-      return { x: W/2 + x, y: H/2 + y };
+    const side=Math.min(W,H)*0.52, half=side/2, perim=side*4;
+    return dots.map((_,i)=>{ const t=(i/n)*perim; let x,y;
+      if(t<side){x=-half+t;y=-half;}else if(t<2*side){x=half;y=-half+(t-side);}
+      else if(t<3*side){x=half-(t-2*side);y=half;}else{x=-half;y=half-(t-3*side);}
+      return {x:W/2+x, y:H/2+y};
     });
   }
-
-  function polyTargets(n, sides) {
-    const r      = Math.min(W, H) * 0.30;
-    const sector = (Math.PI * 2) / sides;
-    return dots.map((_, i) => {
-      const ang = (i / n) * Math.PI * 2 - Math.PI / 2;
-      const a0  = Math.floor(ang / sector) * sector;
-      const a1  = a0 + sector;
-      const t   = (ang - a0) / sector;
-      return {
-        x: W/2 + (r * Math.cos(a0) * (1-t) + r * Math.cos(a1) * t),
-        y: H/2 + (r * Math.sin(a0) * (1-t) + r * Math.sin(a1) * t)
-      };
+  function polyTargets(n,sides) {
+    const r=Math.min(W,H)*0.30, sector=(Math.PI*2)/sides;
+    return dots.map((_,i)=>{
+      const ang=(i/n)*Math.PI*2-Math.PI/2, a0=Math.floor(ang/sector)*sector, a1=a0+sector, t=(ang-a0)/sector;
+      return {x:W/2+(r*Math.cos(a0)*(1-t)+r*Math.cos(a1)*t), y:H/2+(r*Math.sin(a0)*(1-t)+r*Math.sin(a1)*t)};
     });
   }
+  function getTargets(phase,n){switch(phase%4){case 0:return gridTargets();case 1:return circleTargets(n);case 2:return squareTargets(n);case 3:return polyTargets(n,7);}}
+  function ease(t){return t<0.5?2*t*t:-1+(4-2*t)*t;}
 
-  function getTargets(phase, n) {
-    switch (phase % 4) {
-      case 0: return gridTargets();
-      case 1: return circleTargets(n);
-      case 2: return squareTargets(n);
-      case 3: return polyTargets(n, 7);
+  let phase=0, morphing=false, morphStart=0, fromPos=[], toPos=[];
+  function beginMorph(){fromPos=dots.map(d=>({x:d.x,y:d.y}));phase++;toPos=getTargets(phase,dots.length);morphing=true;morphStart=performance.now();}
+  function frame(now){
+    ctx.clearRect(0,0,W,H);
+    let progress=0;
+    if(morphing){
+      progress=Math.min((now-morphStart)/MORPH_MS,1);
+      const ep=ease(progress);
+      for(let i=0;i<dots.length;i++){dots[i].x=fromPos[i].x+(toPos[i].x-fromPos[i].x)*ep;dots[i].y=fromPos[i].y+(toPos[i].y-fromPos[i].y)*ep;}
+      if(progress>=1){morphing=false;setTimeout(beginMorph,HOLD_MS);}
     }
-  }
-
-  function ease(t) { return t < 0.5 ? 2*t*t : -1 + (4-2*t)*t; }
-
-  let phase = 0, morphing = false, morphStart = 0;
-  let fromPos = [], toPos = [];
-
-  function beginMorph() {
-    fromPos   = dots.map(d => ({ x: d.x, y: d.y }));
-    phase++;
-    toPos     = getTargets(phase, dots.length);
-    morphing  = true;
-    morphStart = performance.now();
-  }
-
-  function frame(now) {
-    ctx.clearRect(0, 0, W, H);
-
-    let progress = 0;
-    if (morphing) {
-      progress = Math.min((now - morphStart) / MORPH_MS, 1);
-      const ep = ease(progress);
-      for (let i = 0; i < dots.length; i++) {
-        dots[i].x = fromPos[i].x + (toPos[i].x - fromPos[i].x) * ep;
-        dots[i].y = fromPos[i].y + (toPos[i].y - fromPos[i].y) * ep;
-      }
-      if (progress >= 1) {
-        morphing = false;
-        setTimeout(beginMorph, HOLD_MS);
-      }
+    const ap=Math.sin(progress*Math.PI);
+    for(let i=0;i<dots.length;i++){
+      const breathe=0.35+0.25*Math.sin(now*0.0007+i*0.38), alpha=breathe+ap*0.30;
+      let r=218,g=227,b=217;
+      if(ap>0.05){r=Math.round(218+(238-218)*ap*0.7);g=Math.round(227+(87-227)*ap*0.7);b=Math.round(217+(55-217)*ap*0.7);}
+      ctx.beginPath();ctx.arc(dots[i].x,dots[i].y,DOT_R,0,Math.PI*2);ctx.fillStyle=`rgba(${r},${g},${b},${alpha.toFixed(2)})`;ctx.fill();
     }
-
-    const accentPulse = Math.sin(progress * Math.PI);
-
-    for (let i = 0; i < dots.length; i++) {
-      const breathe = 0.35 + 0.25 * Math.sin(now * 0.0007 + i * 0.38);
-      const alpha   = breathe + accentPulse * 0.30;
-
-      let r = 218, g = 227, b = 217;
-      if (accentPulse > 0.05) {
-        r = Math.round(218 + (238-218) * accentPulse * 0.7);
-        g = Math.round(227 + (87 -227) * accentPulse * 0.7);
-        b = Math.round(217 + (55 -217) * accentPulse * 0.7);
-      }
-
-      ctx.beginPath();
-      ctx.arc(dots[i].x, dots[i].y, DOT_R, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${r},${g},${b},${alpha.toFixed(2)})`;
-      ctx.fill();
-    }
-
     requestAnimationFrame(frame);
   }
-
-  function init() {
-    W = canvas.offsetWidth;
-    H = canvas.offsetHeight;
-    canvas.width  = W;
-    canvas.height = H;
-
-    const n = COLS * ROWS;
-    const gW = (COLS - 1) * (W / COLS);
-    const gH = (ROWS - 1) * (H / ROWS);
-    const ox = (W - gW) / 2;
-    const oy = (H - gH) / 2;
-    dots = Array.from({ length: n }, (_, i) => ({
-      x: ox + (i % COLS) * (W / COLS),
-      y: oy + Math.floor(i / COLS) * (H / ROWS)
-    }));
-
-    morphing = false;
-    phase    = 0;
-    setTimeout(beginMorph, HOLD_MS);
-    requestAnimationFrame(frame);
+  function init(){
+    W=canvas.offsetWidth;H=canvas.offsetHeight;canvas.width=W;canvas.height=H;
+    const n=COLS*ROWS, gW=(COLS-1)*(W/COLS), gH=(ROWS-1)*(H/ROWS), ox=(W-gW)/2, oy=(H-gH)/2;
+    dots=Array.from({length:n},(_,i)=>({x:ox+(i%COLS)*(W/COLS),y:oy+Math.floor(i/COLS)*(H/ROWS)}));
+    morphing=false;phase=0;setTimeout(beginMorph,HOLD_MS);requestAnimationFrame(frame);
   }
-
-  let rsz;
-  window.addEventListener('resize', () => {
-    clearTimeout(rsz);
-    rsz = setTimeout(init, 160);
-  });
-
+  let rsz;window.addEventListener('resize',()=>{clearTimeout(rsz);rsz=setTimeout(init,160);});
   init();
 })();
 
-
-/* ═══════════════════════════════════════════════════════
-   3. WORD-SPLIT + SCROLL REVEALS
-═══════════════════════════════════════════════════════ */
-function wrapWords(el, cls) {
-  function walk(node) {
-    if (node.nodeType === Node.TEXT_NODE) {
-      const parts = node.textContent.split(/(\s+)/);
-      const frag  = document.createDocumentFragment();
-      parts.forEach(p => {
-        if (/^\s+$/.test(p)) {
-          frag.appendChild(document.createTextNode(p));
-        } else if (p) {
-          const s = document.createElement('span');
-          s.className   = cls;
-          s.textContent = p;
-          frag.appendChild(s);
-        }
+/* ── 3. WORD-SPLIT + SCROLL REVEALS ── */
+function wrapWords(el,cls){
+  function walk(node){
+    if(node.nodeType===Node.TEXT_NODE){
+      const parts=node.textContent.split(/(\s+)/), frag=document.createDocumentFragment();
+      parts.forEach(p=>{
+        if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(p));}
+        else if(p){const s=document.createElement('span');s.className=cls;s.textContent=p;frag.appendChild(s);}
       });
-      node.parentNode.replaceChild(frag, node);
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
-      Array.from(node.childNodes).forEach(walk);
-    }
+      node.parentNode.replaceChild(frag,node);
+    } else if(node.nodeType===Node.ELEMENT_NODE){Array.from(node.childNodes).forEach(walk);}
   }
   walk(el);
 }
 
-const heroH = document.getElementById('hero-heading');
-wrapWords(heroH, 'word');
-heroH.querySelectorAll('.word').forEach((w, i) => {
-  w.style.transitionDelay = `${0.18 + i * 0.075}s`;
-});
-requestAnimationFrame(() => requestAnimationFrame(() => {
-  heroH.querySelectorAll('.word').forEach(w => w.classList.add('visible'));
-}));
+const heroH=document.getElementById('hero-heading');
+wrapWords(heroH,'word');
+heroH.querySelectorAll('.word').forEach((w,i)=>{w.style.transitionDelay=`${0.18+i*0.075}s`;});
+requestAnimationFrame(()=>requestAnimationFrame(()=>{heroH.querySelectorAll('.word').forEach(w=>w.classList.add('visible'));}));
 
-const heroSub = document.getElementById('hero-sub');
-wrapWords(heroSub, 'word-fade');
-heroSub.querySelectorAll('.word-fade').forEach((w, i) => {
-  w.style.transitionDelay = `${0.5 + i * 0.048}s`;
-});
-requestAnimationFrame(() => requestAnimationFrame(() => {
-  heroSub.querySelectorAll('.word-fade').forEach(w => w.classList.add('visible'));
-}));
+const heroSub=document.getElementById('hero-sub');
+wrapWords(heroSub,'word-fade');
+heroSub.querySelectorAll('.word-fade').forEach((w,i)=>{w.style.transitionDelay=`${0.5+i*0.048}s`;});
+requestAnimationFrame(()=>requestAnimationFrame(()=>{heroSub.querySelectorAll('.word-fade').forEach(w=>w.classList.add('visible'));}));
 
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-    const el = entry.target;
-    if (el.classList.contains('split-heading')) {
-      wrapWords(el, 'word');
-      el.querySelectorAll('.word').forEach((w, i) => {
-        w.style.transitionDelay = `${i * 0.065}s`;
-      });
-      el.style.opacity = '1';
-      requestAnimationFrame(() => el.querySelectorAll('.word').forEach(w => w.classList.add('visible')));
-    } else if (el.classList.contains('split-body')) {
-      wrapWords(el, 'word-fade');
-      el.querySelectorAll('.word-fade').forEach((w, i) => {
-        w.style.transitionDelay = `${i * 0.042}s`;
-      });
-      el.style.opacity = '1';
-      requestAnimationFrame(() => el.querySelectorAll('.word-fade').forEach(w => w.classList.add('visible')));
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(!entry.isIntersecting)return;
+    const el=entry.target;
+    if(el.classList.contains('split-heading')){
+      wrapWords(el,'word');
+      el.querySelectorAll('.word').forEach((w,i)=>{w.style.transitionDelay=`${i*0.065}s`;});
+      el.style.opacity='1';
+      requestAnimationFrame(()=>el.querySelectorAll('.word').forEach(w=>w.classList.add('visible')));
+    } else if(el.classList.contains('split-body')){
+      wrapWords(el,'word-fade');
+      el.querySelectorAll('.word-fade').forEach((w,i)=>{w.style.transitionDelay=`${i*0.042}s`;});
+      el.style.opacity='1';
+      requestAnimationFrame(()=>el.querySelectorAll('.word-fade').forEach(w=>w.classList.add('visible')));
     } else {
       el.classList.add('visible');
     }
     io.unobserve(el);
   });
-}, { threshold: 0.1 });
+},{threshold:0.1});
 
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-document.querySelectorAll('.split-heading, .split-body').forEach(el => io.observe(el));
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('.split-heading,.split-body').forEach(el=>io.observe(el));
 </script>
 </body>
 </html>
